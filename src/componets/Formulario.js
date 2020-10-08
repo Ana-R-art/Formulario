@@ -1,123 +1,168 @@
-import React, { Fragment,useState} from 'react';
-//import "./App.css";
+import React, { Fragment, useState } from 'react';
+import { useForm } from 'react-hook-form';
 
-const Formulario = () => {
-    const [datos, setDatos] = useState({
-        nombre: '',
-        apellido: ''
-    })
 
-    const handleInputChange=(event) => {
-        //console.log(event.target.value)
-        setDatos({
-            ...datos,
-            [event.target.name]: event.target.value
+     const Formulario = () => {
 
-        })
-     }
+      
 
-     const enviarDatos = (event) => {
-         event.preventDefault();
-         console.log(datos.nombre + '' + datos.apellido)
-     }
 
+        const {register, errors, handleSubmit} = useForm();
+
+        const  [Entradas, setEntradas] = useState([])
+    
+        const onSubmit = (data, e) => {
+            console.log(data);
+            setEntradas([
+                ...Entradas,
+                data
+            ])
+            e.target.reset();
+            
+    }
     return (
         <Fragment>
-             <h1>Registro</h1>
-             <form className="col" onSubmit={enviarDatos}>
+            <h1>Registro</h1>
+           <form onSubmit={handleSubmit(onSubmit)}>
+               
 
-                 
-                 
-                 <div class="row">
+           <div class="row">
                      <div className ="col-md-3">
-                     
-                        <ul>
-                            <input
-                                 placeholder="Ingrese Nombre"
-                                    className="form-control  "
-                                        type="text"
-                                            name="nombre"
-                                                 onChange={handleInputChange}
-                            ></input>
-                     </ul>
-                     </div>
+                        
+                Nombre *
+                <input
+                    name="nombre"
+                    type="text"
+                    size="15"
+                    maxLength="15"
+                    placeholder="Ana"
+                     className="form-control"
+                        ref={
+                            register({
+                                required: {value: true, message: 'Campo Obligatorio'},
+                                maxLength: {
+                                    value: 15,
+                                    message: 'No mas de 15 caracteres'
+                                }
+                            })
+                        }
+                 ></input>
+                   
+                        {    errors.nombre &&
+                            <span className="text-danger text-small d-block mb-2">
+                            {errors.nombre.message}
+                            </span>
+                        }
+                        
+                        </div>
                  </div>
-                 
                  <div class="row">
-                     <div className="col-md-3">
-                     <ul>
+                <div className ="col-md-3">
 
-                        <input
-                            placeholder="Ingrese Apellido Materno"
-                                className="form-control "
-                                    type="text"
-                                        name="apellido"
-                                            onChange={handleInputChange}
-                     ></input>
-                     </ul>
-                     </div>
-                 </div>
+                Apellido Materno *
+                 <input
+                    name="apellidoMaterno"
+                     placeholder="Ramirez"
+                     maxLength="20"
+                    className="form-control my-2"
+                    
+                    ref={
+                        register({
+                            required: {value: true, message: 'Campo Obligatorio'},
+                            minLenght: {value: 15,message: 'Minimo 15 letras'}
+                        })
+                    }
+                 ></input>
+                  {    errors.apellidoMaterno &&
+                            <span className="text-danger text-small d-block mb-2">
+                            {errors.apellidoMaterno.message}
+                            </span>
+                        }
+                    </div>
+                         </div>    
+                      
+                    <div class="row">
+                         <div className ="col-md-3">
 
-                 <div class="row">
-                     <div className ="col-md-3">
-                     
-                        <ul>
-                            <input
-                                 placeholder="Ingrese Apellido Paterno"
-                                    className="form-control  "
-                                        type="text"
-                                            name="nombre"
-                                                 onChange={handleInputChange}
-                            ></input>
-                     </ul>
-                     </div>
-                 </div>
-
-                 <div class="row">
-                     <div className ="col-md-3">
-                     
-                        <ul>
-                            <input
-                                 placeholder="Email"
-                                    className="form-control  "
-                                        type="text"
-                                            name="nombre"
-                                                 onChange={handleInputChange}
-                            ></input>
-                     </ul>
-                     </div>
-                 </div>
-
-                 <div class="row">
-                     <div className ="col-md-3">
-                     
-                        <ul>
-                            <input
-                                 placeholder="Telefono"
-                                    className="form-control  "
-                                        type="text"
-                                            name="nombre"
-                                                 onChange={handleInputChange}
-                            ></input>
-                     </ul>
-                     </div>
-                 </div>
-
-                 <div class="row">
-                 <div className="col-md-3">
-                 <ul>
-                        <button className="btn btn-primary" type="submit">Enviar</button>
-                 </ul>
-                </div>
+                Apellido Paterno *
+                 <input
+                    name="apellidoPaterno"
+                    type="text"
+                    maxLength="20"
+                    placeholder="Perez"
+                    className="form-control my-2"
+                    ref={
+                        register({
+                            required: {value: true, message: 'Campo Obligatorio'},
+                            minLenght: {value: 15,message: 'Minimo 15 letras'}
+                        })
+                        }   
+                    ></input>
+                    { errors.apellidoPaterno &&
+                            <span className="text-danger text-small d-block mb-2">
+                            {errors.apellidoPaterno.message}
+                            </span>
+                    }
                    </div>
-                   ////
-                
-                   ////
-              </form>
-              <h3>{datos.nombre} - {datos.apellido}</h3>
-              </Fragment>
-            
-    );
+                     </div> 
+            <div class="row">
+             <div className ="col-md-3"> 
+
+                <input
+                    name="telefono"
+                    type="number"
+                     placeholder="7621235620"
+                    className="form-control my-2"
+                    ref={
+                        register({
+                            required: {value: true, message: 'Campo Obligatorio'},
+                            maxLength: {value: 15,message: 'solo se permiten 10 digitos'}
+                        })
+                    }
+                 ></input>
+                  {    errors.telefono &&
+                            <span className="text-danger text-small d-block mb-2">
+                            {errors.telefono.message}
+                            </span>
+                        }
+                </div>
+                  </div>        
+
+                <div class="row">
+                <div className ="col-md-3">
+                <input
+                    name="correo"
+                     placeholder="alguien@gmail.com"
+                    className="form-control my-2"
+                    ref={
+                        register({
+                            required: {value: true, message: 'Campo Obligatorio'},
+                            minLenght: {value: 15,message: 'Minimo 15 letras'}
+                        })
+                    }
+                ></input>
+                         { errors.correo &&
+                            <span className="text-danger text-small d-block mb-2">
+                            {errors.correo.message}
+                            </span>
+                        }
+                        </div>
+                        </div>
+                 <button className="btn btn-primary">Enviar</button>
+                 
+
+
+            </form>
+            <ul>
+                {
+                    Entradas.map(item =>
+                        
+                    <li> {item.nombre} -  - {item.apellidoMaterno} - {item.apellidoPaterno} - {item.telefono}-{item.correo}</li>
+                    )     
+                }
+            </ul>
+        </Fragment>
+    )
 }
 
 export default Formulario;

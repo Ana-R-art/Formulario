@@ -1,11 +1,12 @@
 import React from 'react';
-
+//import  "boot"
 import Formulario from './componets/Formulario'
+//import './styles
 
 
 function App() {
   return (
-    <div className="container mt-5">
+    <div className="container mt-2">
       <Formulario/>
     </div>   
   );
